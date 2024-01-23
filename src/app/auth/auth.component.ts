@@ -47,6 +47,7 @@ export class AuthComponent implements OnInit, AfterViewInit, AfterContentChecked
             username: [null, [Validators.required]],
             password: [null, [Validators.required]]
         });
+        this.authType = 'local'
     }
 
     ngOnInit() {
@@ -143,7 +144,7 @@ export class AuthComponent implements OnInit, AfterViewInit, AfterContentChecked
                         self.activeSessionWarning();
                     }
                     else {
-                        this.authType == 'azure' ? this.doAzureLogin() : this.doLogin();
+                        // this.authType == 'azure' ? this.doAzureLogin() : this.doLogin();
                     }
                 }
             },

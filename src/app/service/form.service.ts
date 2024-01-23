@@ -29,6 +29,7 @@ export class FormService {
     const camelCase = path.split('.').join(' ').split('#').join(' ').camelCase();
     if (definition.type === 'Object' && !definition.properties.schemaFree) {
       const objDef = definition.definition;
+
       if (options && options.flatten) {
         objDef.forEach(def => {
           temp.push(self.convert(def.key, def, level + 1, path, value && typeof value === 'object' ? value[def.key] : null, options));

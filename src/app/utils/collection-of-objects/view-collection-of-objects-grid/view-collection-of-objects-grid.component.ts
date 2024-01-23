@@ -102,7 +102,7 @@ export class ViewCollectionOfObjectsGridComponent implements OnInit, OnChanges {
   }
 
   afterViewItem() {
-    this.forceResizeColumns();
+    this.gridApi && this.forceResizeColumns();
   }
 
   clearFilters() {
@@ -216,11 +216,12 @@ export class ViewCollectionOfObjectsGridComponent implements OnInit, OnChanges {
     this.gridApi = event.api;
     this.gridApi = event.gridApi;
     if (this.gridApi) {
-      this.forceResizeColumns()
+      this.forceResizeColumns();
+      this.gridApi.setFilterModel('');
+
     }
     // this.gridApi.sizeColumnsToFit()
     // this.gridApi.autoSizeAllColumns();
-    this.gridApi.setFilterModel('');
   }
 
   private forceResizeColumns() {

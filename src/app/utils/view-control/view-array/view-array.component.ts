@@ -25,6 +25,7 @@ export class ViewArrayComponent implements OnInit {
         if (self.definition.definition) {
             self.hasPath = true;
         }
+        console.log(self.definition);
     }
 
     getDefinitionWithValue(def: any, val: any, index: number) {

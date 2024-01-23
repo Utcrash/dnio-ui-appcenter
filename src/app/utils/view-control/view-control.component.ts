@@ -20,6 +20,7 @@ export class ViewControlComponent implements OnInit {
 
   ngOnInit() {
     this.ngbToolTipConfig.container = 'body';
+    console.log(this.definition);
   }
 
   spacing(level: number, arr?) {

@@ -30,17 +30,17 @@
               <div class="form-group">
                 <label style="margin-top: 20px">Email</label>
                 <input type="text" class="form-control form-control-lg input-text" formControlName="username"
-                  id="username" #usernameControl placeholder="name@email.com" odpAutoFocus
-                  (keyup.enter)="onSubmit($event)" autocomplete="off" />
-                <label style="margin-top: 20px">Password</label>
-                <input type="password" class="form-control form-control-lg input-text" formControlName="password"
+                  id="username" #usernameControl placeholder="name@email.com" odpAutoFocus 
+                  (blur)="onSubmit($event)" autocomplete="off"  (keyup.enter)="this.authType === 'azure' ? doAzureLogin() : doLogin()"/>
+                <label style="margin-top: 20px" *ngIf="this.authType !== 'azure'">Password</label>
+                <input type="password" class="form-control form-control-lg input-text" formControlName="password" *ngIf="this.authType !== 'azure'"
                   id="password" #password placeholder="xxxxxxxxx" (keyup.enter)="onSubmit($event)" />
 
                 <!-- <a href="#" class="text-secondary">Forgot your Password?</a> -->
                 <button type="button" class="btn btn-lg btn-primary input-text mt-4 form-button"
-                  (click)="onSubmit($event)" [disabled]="!(form.get('username').value && form.get('password').value)">
+                (click)="this.authType === 'azure' ? doAzureLogin() : doLogin()" [disabled]="!(form.get('username').value && form.get('password').value)">
                   <span *ngIf="loader" class="fa fa-spinner fa-pulse mr-2"></span>
-                  <span class="btn-text">Login</span>
+                  <span class="btn-text">Login{{this.authType === 'azure' ? ' with Azure' : ''}}</span>
                 </button>
               </div>
 

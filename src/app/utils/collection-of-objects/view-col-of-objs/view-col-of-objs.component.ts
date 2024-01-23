@@ -47,30 +47,30 @@ export class ViewColOfObjsComponent implements AgRendererComponent, OnDestroy {
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.parentContext = params.context.gridParent;
-    this.selectedRowIndex = this.params.rowIndex;
+    this.selectedRowIndex = this.params.node.rowIndex;
     this.expandDefinitions();
+
   }
 
   expandDefinitions() {
     for (let i = 0; i < this.arrayValues.length; i++) {
-      this.expandedDefinitions.push(
-        {
-          definition: this.parentContext.definition.definition.map(def => {
-            if (def.type === 'Object' && !def.properties.schemaFree) {
-              const selfDefinition = this.getDefinitionWithValue(def, this.arrayValues[i], i, this.parentContext.definition.path);
-              selfDefinition.value = this.arrayValues[i][selfDefinition.key];
-              selfDefinition.definition = selfDefinition.definition.map(d => {
-                return this.getDefinitionWithValue(d, this.arrayValues[i], i, this.parentContext.definition.path);
-              })
-              return selfDefinition;
-            }
-            return this.getDefinitionWithValue(def, this.arrayValues[i], i, this.parentContext.definition.path)
-          }),
-          value: this.arrayValues[i]
+      const expandedDefinition = this.parentContext.definition.definition.map(def => {
+        if (def.type === 'Object' && !def.properties.schemaFree) {
+          const selfDefinition = this.getDefinitionWithValue(def, this.arrayValues[i], i, this.parentContext.definition.path);
+          selfDefinition.value = this.arrayValues[i][selfDefinition.key];
+          selfDefinition.definition = selfDefinition.definition.map(d => this.getDefinitionWithValue(d, this.arrayValues[i], i, this.parentContext.definition.path));
+          return selfDefinition;
         }
-      )
+        return this.getDefinitionWithValue(def, this.arrayValues[i], i, this.parentContext.definition.path);
+      });
+  
+      this.expandedDefinitions.push({
+        definition: expandedDefinition,
+        value: this.arrayValues[i]
+      });
     }
   }
+  
 
   viewItem(event: Event) {
     event.stopPropagation();
